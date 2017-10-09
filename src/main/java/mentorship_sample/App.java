@@ -52,20 +52,62 @@ class Pizza {
             this.price *= 2;
         }
     }
+
+    public int getPizzaNameId(){
+        if ("Margarita".equals(this.getPizzaName())) return 1;
+                else if ("Hawaii".equals(this.getPizzaName())) return 2;
+                        else if ("Diablo".equals(this.getPizzaName())) return 3;
+                                else return 4;
+    }
     public static void updatePriceOfPizza(Pizza pizza) {
         if (pizza!= null && "Big".equals(pizza.getPizzaSize())){
             pizza.price *= 2;
         }
     }
 
+    public static void calculatePriceOfPizza(Pizza pizza){
+        if (pizza!= null) {
+            switch (pizza.getPizzaNameId()){
+
+                case 1:
+                    pizza.setCalories(pizza.getCalories() + 200);
+                    pizza.setPrice(pizza.getPrice() + 1.50);
+                    break;
+                case 2:
+                    pizza.setCalories(pizza.getCalories() + 400);
+                    pizza.setPrice(pizza.getPrice() + 2.75);
+                    break;
+                case 3:
+                    pizza.setCalories(pizza.getCalories() + 100);
+                    pizza.setPrice(pizza.getPrice() + 5.50);
+                    break;
+                case 4:
+                    pizza.setCalories(pizza.getCalories() + 700);
+                    pizza.setPrice(pizza.getPrice() + 10.50);
+                    break;
+            }
+        }
+    }
+    // constructors
+
+    public Pizza() {
+        this.pizzaName="Pizza of the day";
+        this.pizzaSize= "Small";
+        this.setCalories(300);
+        this.setPrice(2.50);
+    }
+
+    public Pizza(String pizzaName) {
+        this();
+        this.pizzaName = pizzaName;
+    }
+
     @Override
     public String toString() {
-        return "Pizza{" +
-                "pizzaSize='" + pizzaSize + '\'' +
-                ", pizzaName='" + pizzaName + '\'' +
-                ", calories=" + calories +
-                ", price=" + price +
-                '}';
+        return "You ordered 1 " + pizzaSize + '\'' +
+                " pizza '" + pizzaName + '\'' +
+                "', that has " + calories +
+                "calories and price " + price;
     }
 }
 
@@ -73,56 +115,17 @@ public class App {
     public static void main(String[] args) {
 
 
-        Pizza myBuggyPizza = null;
-        myMainMethod(myBuggyPizza);
+        Pizza myPizza = null;
+        pizzaSelectionByUser(myPizza);
+        System.out.println(myPizza);
 
     }
 
-    private static void myMainMethod(Pizza myBuggyPizza) {
+    private static void pizzaSelectionByUser(Pizza pizza) {
+
+// Greeting
+
         System.out.println("Welcome to Trattoria!\n");
-
-        // Setting pizza size
-        System.out.println("Please enter the desired size of pizza:");
-        System.out.println("1- Big");
-        System.out.println("2- Small");
-
-        int inpSize, inpName;
-        Scanner choise = new Scanner(System.in);
-        // TBD Захист від дураків :)
-
-        inpSize = choise.nextInt();
-
-        while (inpSize != 1 && inpSize != 2) {
-            System.out.println("Please enter 1 or 2!");
-            inpSize = choise.nextInt();
-        }
-        Pizza pizza = new Pizza();
-        Pizza.updatePriceOfPizza(myBuggyPizza);
-        System.out.println(pizza);
-        switch (inpSize) {
-            case 1:
-                pizza.setPizzaSize("Big");
-                pizza.setCalories(500);
-                pizza.setPrice(3.50);
-                System.out.println("You selected a big pizza");
-                break;
-            case 2:
-                pizza.setPizzaSize("Small");
-                pizza.setCalories(300);
-                pizza.setPrice(2.50);
-                System.out.println("You selected a small pizza");
-                break;
-        }
-
-        Pizza pizza1 = new Pizza();
-        pizza1.setPrice(123);
-        Pizza.updatePriceOfPizza(pizza1);
-        System.out.println("Price of the day for pizza1:"+pizza1.getPrice());
-
-        pizza.multPrice();
-        System.out.println("Price of the day "+pizza.getPrice());
-
-        // Setting pizza name
         System.out.println("Please enter the desired name of pizza:");
         System.out.println("1- Margarita");
         System.out.println("2- Hawaii");
@@ -131,41 +134,33 @@ public class App {
 
 
         // TBD Захист від дураків :)
-        inpName = choise.nextInt();
 
-        while (inpName > 4 || inpName < 1) {
+        int idSelectedPizza;
+        Scanner choise = new Scanner(System.in);
+        idSelectedPizza = choise.nextInt();
+
+        while (idSelectedPizza > 4 || idSelectedPizza < 1) {
             System.out.println("Please enter 1 to 4!");
-            inpName = choise.nextInt();
+            idSelectedPizza = choise.nextInt();
         }
+        //Pizza selection
 
-        switch (inpName) {
+        switch (idSelectedPizza){
             case 1:
-                pizza.setPizzaName("Margarita");
-                pizza.setCalories(pizza.getCalories() + 200);
-                pizza.setPrice(pizza.getPrice() + 1.50);
-                System.out.println("You selected Margarita pizza");
+                pizza=new Pizza("Margarita");
                 break;
             case 2:
-                pizza.setPizzaName("Hawaii");
-                pizza.setCalories(pizza.getCalories() + 400);
-                pizza.setPrice(pizza.getPrice() + 2.75);
-                System.out.println("You selected Hawaii pizza");
+                pizza=new Pizza("Hawaii");
                 break;
             case 3:
-                pizza.setPizzaName("Diablo");
-                pizza.setCalories(pizza.getCalories() + 100);
-                pizza.setPrice(pizza.getPrice() + 5.50);
-                System.out.println("You selected Diablo pizza");
+                pizza=new Pizza("Diablo");
                 break;
             case 4:
-                pizza.setPizzaName("4 Cheases");
-                pizza.setCalories(pizza.getCalories() + 700);
-                pizza.setPrice(pizza.getPrice() + 10.50);
-                System.out.println("You selected 4 Cheases pizza");
+                pizza=new Pizza("4 Cheases");
+                break;
+            default:
+                pizza=new Pizza();
                 break;
         }
-
-        System.out.println("You ordered " + pizza.getPizzaSize() + " " + pizza.getPizzaName() + " pizza for " + pizza.getPrice() + " $");
-        System.out.println("This pizza has " + pizza.getCalories() + " calories");
     }
 }
